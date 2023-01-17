@@ -47,13 +47,14 @@ public class Movie {
             inverseJoinColumns = {@JoinColumn(name = "genre_name", referencedColumnName = "genreName")})
     Set<Genre> genres;
 
-    public Movie(String title, String plot, LocalDate productionYear, long duration, String poster, Nationality nationality) {
+    public Movie(String title, String plot, LocalDate productionYear, long duration, String poster, Nationality nationality, Set<Language> languages) {
         this.title = title;
         this.plot = plot;
         this.productionYear = productionYear;
         this.duration = duration;
         this.poster = poster;
         this.nationality = nationality;
+        this.languages = languages;
     }
 
     @Override

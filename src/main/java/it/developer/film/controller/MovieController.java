@@ -1,5 +1,6 @@
 package it.developer.film.controller;
 
+import it.developer.film.entity.Language;
 import it.developer.film.entity.Movie;
 import it.developer.film.payload.response.MovieResponse;
 import it.developer.film.service.MovieService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("movie")
@@ -30,7 +32,8 @@ public class MovieController {
                 movie.getProductionYear(),
                 movie.getDuration(),
                 movie.getPoster(),
-                movie.getNationality()
+                movie.getNationality(),
+                movie.getLanguages()
         );
         movieService.insertMovie(mov);
         if (mov.getId() == null) {
@@ -74,6 +77,15 @@ public class MovieController {
             return new ResponseEntity<>("List is empty", HttpStatus.NOT_FOUND);
     }
         return new ResponseEntity<>(movieList, HttpStatus.OK);
+
+    }
+
+    @PatchMapping("Languages")
+    public ResponseEntity<?> getTitle(@PathVariable Long id, @RequestParam Set<Language> languages) {
+
+
+
+    return null;
 
     }
 }
