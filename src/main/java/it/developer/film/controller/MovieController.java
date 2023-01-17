@@ -7,6 +7,7 @@ import it.developer.film.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -81,7 +82,8 @@ public class MovieController {
 
     }
 
-    @PatchMapping("Languages")
+    @PatchMapping("languages/{id}")
+    @Transactional
     public ResponseEntity<?> addLanguages(@PathVariable Long id, @RequestParam Set<Language> languages) {
 
         Optional<Movie> m = movieService.findById(id);
