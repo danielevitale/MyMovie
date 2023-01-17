@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieService {
@@ -15,6 +16,8 @@ public class MovieService {
     @Autowired MovieRepository movieRepository;
 
     public void insertMovie(Movie mov){movieRepository.save(mov);}
+
+    public Optional<Movie> findById(Long id){return movieRepository.findById(id);}
 
     public boolean existsByTitle(String title){
         return movieRepository.existsByTitle(title);}

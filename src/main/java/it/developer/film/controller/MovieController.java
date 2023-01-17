@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -81,11 +82,20 @@ public class MovieController {
     }
 
     @PatchMapping("Languages")
-    public ResponseEntity<?> getTitle(@PathVariable Long id, @RequestParam Set<Language> languages) {
+    public ResponseEntity<?> addLanguages(@PathVariable Long id, @RequestParam Set<Language> languages) {
 
+        Optional<Movie> m = movieService.findById(id);
 
+        if (m.isEmpty()){
+            return new ResponseEntity<>("Film not found", HttpStatus.NOT_FOUND);
+        }
+        Set<Language> oldLanguages = m.get().getLanguages();
 
-    return new ResponseEntity<String>("Lingue modificate", HttpStatus.OK);
+        oldLanguages.addAll(languages);
+
+        m.get().setLanguages(oldLanguages);
+
+        return new ResponseEntity<String>("Lingue modificate", HttpStatus.OK);
 
     }
 }
