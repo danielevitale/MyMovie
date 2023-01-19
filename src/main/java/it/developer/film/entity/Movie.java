@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,6 +25,8 @@ public class Movie {
 
     @Column(nullable = true)
     private String plot;
+
+    @Column(columnDefinition = "Year")
     private LocalDate productionYear;
 
     @Column(nullable = false)
