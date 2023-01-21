@@ -11,6 +11,6 @@ import java.util.Set;
 public interface GenreRepository extends JpaRepository<Genre, String> {
 
 
-    @Query(value = "SELECT * FROM genre", nativeQuery = true)
+    @Query(value = "SELECT * FROM genre ORDER BY genre_name", nativeQuery = true)
     Set<String> getAllGenre();
 }

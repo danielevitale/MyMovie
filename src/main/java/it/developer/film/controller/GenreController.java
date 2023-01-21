@@ -20,6 +20,7 @@ public class GenreController {
     @Autowired
     GenreService genreService;
 
+    // metodo per inserire un nuovo genere
     @PutMapping("insert")
     public ResponseEntity<?> insertGenre(@RequestBody Genre genre){
         if (genreService.existsByGenre(genre.getGenreName()))
@@ -35,12 +36,13 @@ public class GenreController {
 
     // metodo per ottenere l'elenco dei generi inseriti
     @GetMapping("/findAll")
-    public ResponseEntity<?>findAll(){
+    public ResponseEntity<?>getAllGenre(){
         Set<String> gen = genreService.getAllGenre();
         if(gen.isEmpty()){
-            return new ResponseEntity<String>("List is empty", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Set is empty", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(gen, HttpStatus.CREATED);
+        return new ResponseEntity<>(gen, HttpStatus.OK);
     }
+
 
 }
