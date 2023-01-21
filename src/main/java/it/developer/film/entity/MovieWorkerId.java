@@ -17,8 +17,6 @@ public class MovieWorkerId implements Serializable {
     @JoinColumn( name = "worker_id")
     private Worker worker;
 
-    @ManyToOne
-    @JoinColumn( name = "role_name")
     private Role role;
 
     @Override

@@ -20,6 +20,7 @@ public class MovieWorker {
     @EmbeddedId
     private MovieWorkerId movieWorkerId;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
