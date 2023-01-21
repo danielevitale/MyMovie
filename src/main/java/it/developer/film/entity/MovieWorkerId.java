@@ -1,8 +1,6 @@
 package it.developer.film.entity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,7 +14,8 @@ public class MovieWorkerId implements Serializable {
     @ManyToOne
     @JoinColumn( name = "worker_id")
     private Worker worker;
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
     private Role role;
 
     @Override
