@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("genre")
@@ -34,12 +36,11 @@ public class GenreController {
     // metodo per ottenere l'elenco dei generi inseriti
     @GetMapping("/findAll")
     public ResponseEntity<?>findAll(){
-        List<Genre> gen = genreService.findAll();
+        Set<String> gen = genreService.getAllGenre();
         if(gen.isEmpty()){
             return new ResponseEntity<String>("List is empty", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(gen, HttpStatus.CREATED);
     }
-
 
 }
