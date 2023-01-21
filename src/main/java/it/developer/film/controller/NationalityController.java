@@ -28,10 +28,7 @@ public class NationalityController {
 
         nationalityService.insertNationality(nationality);
 
-        if (nationalityService.existsByNationalityName(nat.getNationalityName())) {
-            return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
-        }
-        return new ResponseEntity<String>("Operation failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
 
     }
 }

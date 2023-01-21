@@ -25,12 +25,8 @@ public class GenreController {
         Genre genr = new Genre(
                 genre.getGenreName()
         );
-
         genreService.insertGenre(genr);
-        if (genreService.existsByGenre(genre.getGenreName())) {
-            return new ResponseEntity<>("Operation run!", HttpStatus.CREATED);
-        }
 
-        return new ResponseEntity<>("Operation failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Operation run!", HttpStatus.CREATED);
     }
 }

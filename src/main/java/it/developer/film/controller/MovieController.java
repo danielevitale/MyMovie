@@ -38,48 +38,17 @@ public class MovieController {
                 movie.getLanguages()
         );
         movieService.insertMovie(mov);
-        if (mov.getId() == null) {
-            return new ResponseEntity<String>("The insertion fail", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
         return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
     }
-
-    /*@GetMapping("movieAfter")
-    public ResponseEntity<?> findByProductionYearAfter(@RequestBody LocalDate year) {
-        List<Movie> movieList = movieService.findByProductionYearAfter(year);
-        if (movieList.isEmpty()) {
-            return new ResponseEntity<>("List is empty", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(movieList, HttpStatus.OK);
-
-    }*/
-
-    /*@GetMapping("durationAfter/{duration}")
-    public ResponseEntity<?> findByDuration(@PathVariable Long duration) {
-        List<Movie> movieList = movieService.findByDurationAfter(duration);
-        if (movieList.isEmpty()) {
-            return new ResponseEntity<>("List is empty", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(movieList, HttpStatus.OK);
-    }*/
-
-    /*@GetMapping("durationAfter/{duration}")
-    public ResponseEntity<?> getMovieAfterDuration(@PathVariable Long duration) {
-        List<Movie> movieList = movieService.getMovieAfterDuration(duration);
-        if (movieList.isEmpty()) {
-            return new ResponseEntity<>("List is empty", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(movieList, HttpStatus.OK);
-    }*/
 
     @GetMapping("duration/{duration}")
     public ResponseEntity<?> getTitle(@PathVariable Long duration){
         List<MovieResponse> movieList = movieService.getTitle(duration);
         if (movieList.isEmpty()) {
             return new ResponseEntity<>("List is empty", HttpStatus.NOT_FOUND);
-    }
+        }
         return new ResponseEntity<>(movieList, HttpStatus.OK);
-
     }
 
     @PatchMapping("languages/{id}")
