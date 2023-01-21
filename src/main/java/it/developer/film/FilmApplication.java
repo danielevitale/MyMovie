@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 public class FilmApplication {
 
 	public static void main(String[] args) {
+		System.out.println("BENVENUTI");
 		SpringApplication.run(FilmApplication.class, args);
 	}
 
