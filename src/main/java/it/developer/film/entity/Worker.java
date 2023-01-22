@@ -17,15 +17,11 @@ public class Worker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-
     @Column(nullable = false, length = 30)
     private String firstName;
-
     @Column(nullable = false, length = 30)
     private String lastName;
-
     private LocalDate birthday;
-
     private String image;
 
     @ManyToOne
