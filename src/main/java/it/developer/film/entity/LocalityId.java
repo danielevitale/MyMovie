@@ -1,5 +1,8 @@
 package it.developer.film.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -8,6 +11,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
 public class LocalityId implements Serializable {
 
     @ManyToOne

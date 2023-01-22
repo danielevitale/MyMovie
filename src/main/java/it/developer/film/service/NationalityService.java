@@ -6,6 +6,7 @@ import it.developer.film.repository.NationalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -16,6 +17,9 @@ public class NationalityService {
 
     public void insertNationality(Nationality nat) {
         nationalityRepository.save(nat);
+    }
+    public Optional<Nationality> findById(String nationalityName){
+       return nationalityRepository.findById(nationalityName);
     }
 
     public boolean existsByNationalityName(String nationalityName) {
