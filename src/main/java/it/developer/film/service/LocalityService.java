@@ -25,8 +25,10 @@ public class LocalityService {
         return localityRepository.findByLocality(nationality, city);
     }
 
-   /* public boolean existsByNationalityNameAndCityName(String nationality, String city){
-        return localityRepository.existsByNationalityNameAndCityName(nationality, city);
-    }*/
-
+   /*
+   //metodo alternativo
+   public boolean existsByNationalityNameAndCityName(Nationality nationality, String city){
+        return localityRepository.existsByLocalityIdNationalityNameAndLocalityIdCityName(nationality, city);
+    }
+    */
 }

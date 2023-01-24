@@ -18,5 +18,8 @@ public interface LocalityRepository extends JpaRepository<Locality, LocalityId> 
     @Query(value="SELECT * FROM locality WHERE nationality_name = :nationality AND city_name = :city ", nativeQuery = true)
     Locality findByLocality(@Param("nationality") String nationality, @Param("city") String city);
 
-    /*boolean existsByNationalityNameAndCityName(String nationality, String city);*/
+    /*
+    // Metodo alternativo
+    boolean existsByLocalityIdNationalityNameAndLocalityIdCityName(Nationality nationality, String city);
+     */
 }

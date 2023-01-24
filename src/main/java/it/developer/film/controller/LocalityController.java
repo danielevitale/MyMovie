@@ -33,10 +33,12 @@ public class LocalityController {
         if(localityService.findByLocality(nationality,locality.getCityName()) != null){
             return new ResponseEntity<String>("Locality already exists", HttpStatus.NOT_ACCEPTABLE);
         }
-
-        /*if(localityService.existsByNationalityNameAndCityName(nationality, locality.getCityName())){
+        /*
+        //metodo alternativo
+        if(localityService.existsByNationalityNameAndCityName(nat.get(), locality.getCityName())){
             return new ResponseEntity<String>("Locality already exists", HttpStatus.NOT_ACCEPTABLE);
-        }*/
+        }
+        */
 
         Locality loc = new Locality(new LocalityId(new Nationality(nationality), locality.getCityName()));
 
