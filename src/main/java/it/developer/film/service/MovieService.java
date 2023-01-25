@@ -13,19 +13,26 @@ import java.util.Optional;
 @Service
 public class MovieService {
 
-    @Autowired MovieRepository movieRepository;
+    @Autowired
+    MovieRepository movieRepository;
 
-    public void insertMovie(Movie mov){movieRepository.save(mov);}
+    public void insertMovie(Movie mov) {
+        movieRepository.save(mov);
+    }
 
-    public Optional<Movie> findById(Long id){return movieRepository.findById(id);}
+    public Optional<Movie> findById(Long id) {
+        return movieRepository.findById(id);
+    }
 
-    public boolean existsByTitle(String title){
-        return movieRepository.existsByTitle(title);}
+    public boolean existsByTitle(String title) {
+        return movieRepository.existsByTitle(title);
+    }
 
-    public boolean existsByProductionYear(LocalDate productionYear){
-        return movieRepository.existsByProductionYear(productionYear);}
+    public boolean existsByProductionYear(LocalDate productionYear) {
+        return movieRepository.existsByProductionYear(productionYear);
+    }
 
-    public List<Movie> findByProductionYearAfter(LocalDate date){
+    public List<Movie> findByProductionYearAfter(LocalDate date) {
         return movieRepository.findByProductionYearAfter(date);
     }
 
@@ -37,12 +44,14 @@ public class MovieService {
         return movieRepository.getMovieAfterDuration(duration);
     }*/
 
-    public List<MovieResponse> getTitle(Long duration){
+    public List<MovieResponse> getTitle(Long duration) {
         return movieRepository.getTitle(duration);
     }
 
-
-
+    public List<MovieResponse> getAllMovie() {
+        List<MovieResponse> movieList = movieRepository.getAllMovie();
+        return movieList;
+    }
 
 
 }

@@ -69,4 +69,12 @@ public class MovieController {
         return new ResponseEntity<String>("Lingue modificate", HttpStatus.OK);
 
     }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> getAllMovie (){
+        List<MovieResponse> movieList = movieService.getAllMovie();
+        return new ResponseEntity<>(movieList,HttpStatus.OK);
+    }
+
+
 }

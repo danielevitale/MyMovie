@@ -28,11 +28,17 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     //JPQL
     @Query(value = "SELECT new it.developer.film.payload.response.MovieResponse(" +
             "m.title, " +
-            "m.plot, " +
             "m.duration " +
             ") FROM Movie m " +
             "WHERE duration > :duration")
     List<MovieResponse> getTitle(@Param("duration") Long duration);
+
+    @Query(value = "SELECT new it.developer.film.payload.response.MovieResponse(" +
+            "m.title, " +
+            "m.duration " +
+            ") FROM Movie m ORDER BY m.title"
+    )
+    List<MovieResponse> getAllMovie();
 
 
 }
