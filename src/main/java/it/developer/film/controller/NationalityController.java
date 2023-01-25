@@ -33,12 +33,21 @@ public class NationalityController {
 
     //controller per vedere tutte le nazionalità caricate
     @GetMapping("/findAll")
-    public ResponseEntity<?>getAllNationality(){
+    public ResponseEntity<?> getAllNationality() {
         Set<String> nat = nationalityService.getAllNationality();
-        if(nat.isEmpty()){
+        if (nat.isEmpty()) {
             return new ResponseEntity<String>("Set is empty", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(nat, HttpStatus.OK);
+    }
+
+    @GetMapping("/findOne/{nationalityName}")
+    public ResponseEntity<?> findOne(@PathVariable String nationalityName) {
+        if (nationalityService.existsByNationalityName(nationalityName)) {
+            return new ResponseEntity<String>("Nationality already exists", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<String>("Nationality not found", HttpStatus.BAD_REQUEST);
     }
 }
 
