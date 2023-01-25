@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,10 +26,14 @@ public class LocalityService {
         return localityRepository.findByLocality(nationality, city);
     }
 
-   /*
-   //metodo alternativo
+
+   //metodo alternativo per svolgere service di riga 25
    public boolean existsByNationalityNameAndCityName(Nationality nationality, String city){
         return localityRepository.existsByLocalityIdNationalityNameAndLocalityIdCityName(nationality, city);
     }
-    */
+
+
+    public List<String> findAllLocality(){
+        return localityRepository.findAllLocality();
+    }
 }

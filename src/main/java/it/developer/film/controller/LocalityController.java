@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,22 +24,16 @@ public class LocalityController {
     NationalityService nationalityService;
 
     @PutMapping("/insert/{nationality}")
-    public ResponseEntity<?>insertLocality(@PathVariable String nationality, @RequestBody LocalityRequest locality){
+    public ResponseEntity<?> insertLocality(@PathVariable String nationality, @RequestBody LocalityRequest locality) {
         Optional<Nationality> nat = nationalityService.findById(nationality);
-        if(nat.isEmpty())
-        {
+        if (nat.isEmpty()) {
             return new ResponseEntity<String>("Nationality not found", HttpStatus.BAD_REQUEST);
         }
 
-        if(localityService.findByLocality(nationality,locality.getCityName()) != null){
+        if (localityService.findByLocality(nationality, locality.getCityName()) != null) {
             return new ResponseEntity<String>("Locality already exists", HttpStatus.NOT_ACCEPTABLE);
         }
-        /*
-        //metodo alternativo
-        if(localityService.existsByNationalityNameAndCityName(nat.get(), locality.getCityName())){
-            return new ResponseEntity<String>("Locality already exists", HttpStatus.NOT_ACCEPTABLE);
-        }
-        */
+
 
         Locality loc = new Locality(new LocalityId(new Nationality(nationality), locality.getCityName()));
 
@@ -46,4 +41,21 @@ public class LocalityController {
 
         return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
     }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAllLocality() {
+        List<String> getAllLocality = localityService.findAllLocality();
+        return new ResponseEntity<>(getAllLocality, HttpStatus.OK);
+    }
+
+    @GetMapping("/findOne/{nationalityName}/{cityName}")
+    public ResponseEntity<?> findOneLocality(@PathVariable Nationality nationalityName, @PathVariable String cityName) {
+        if (localityService.existsByNationalityNameAndCityName(nationalityName, cityName)) {
+            return new ResponseEntity<String>("Locality already exists", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Locality not found", HttpStatus.NOT_FOUND);
+
+    }
+
+
 }
