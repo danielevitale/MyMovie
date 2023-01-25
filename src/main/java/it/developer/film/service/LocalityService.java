@@ -4,6 +4,7 @@ import it.developer.film.entity.Locality;
 import it.developer.film.entity.LocalityId;
 import it.developer.film.entity.Nationality;
 import it.developer.film.payload.request.LocalityRequest;
+import it.developer.film.payload.response.LocalityResponse;
 import it.developer.film.repository.LocalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class LocalityService {
     }
 
 
-    public List<String> findAllLocality(){
+    public List<LocalityResponse> findAllLocality(){
         return localityRepository.findAllLocality();
     }
 }

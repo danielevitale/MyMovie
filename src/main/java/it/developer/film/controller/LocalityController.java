@@ -5,6 +5,7 @@ import it.developer.film.entity.Locality;
 import it.developer.film.entity.LocalityId;
 import it.developer.film.entity.Nationality;
 import it.developer.film.payload.request.LocalityRequest;
+import it.developer.film.payload.response.LocalityResponse;
 import it.developer.film.service.LocalityService;
 import it.developer.film.service.NationalityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class LocalityController {
 
     @GetMapping("/findAll")
     public ResponseEntity<?> findAllLocality() {
-        List<String> getAllLocality = localityService.findAllLocality();
+        List<LocalityResponse> getAllLocality = localityService.findAllLocality();
         return new ResponseEntity<>(getAllLocality, HttpStatus.OK);
     }
 
