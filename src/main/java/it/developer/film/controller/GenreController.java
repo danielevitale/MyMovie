@@ -22,7 +22,7 @@ public class GenreController {
 
     // metodo per inserire un nuovo genere
     @PutMapping("insert")
-    public ResponseEntity<?> insertGenre(@RequestBody Genre genre){
+    public ResponseEntity<?> insertGenre(@RequestBody Genre genre) {
         if (genreService.existsByGenre(genre.getGenreName()))
             return new ResponseEntity<>("Already exists", HttpStatus.NOT_ACCEPTABLE);
 
@@ -36,12 +36,21 @@ public class GenreController {
 
     // metodo per ottenere l'elenco dei generi inseriti
     @GetMapping("/findAll")
-    public ResponseEntity<?>getAllGenre(){
+    public ResponseEntity<?> getAllGenre() {
         Set<String> gen = genreService.getAllGenre();
-        if(gen.isEmpty()){
+        if (gen.isEmpty()) {
             return new ResponseEntity<String>("Set is empty", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(gen, HttpStatus.OK);
+    }
+
+    @GetMapping("/findOne/{genreName}")
+    public ResponseEntity<?> findOne(@PathVariable String genreName) {
+        if (genreService.existsByGenre(genreName)) {
+            return new ResponseEntity<String>("Genre already exists", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<String>("Genre not found", HttpStatus.BAD_REQUEST);
     }
 
 
