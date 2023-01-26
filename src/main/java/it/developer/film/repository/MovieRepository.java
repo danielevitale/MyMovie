@@ -19,12 +19,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findByProductionYearAfter(LocalDate date);
 
-    /*List<Movie> findByDurationAfter(Long duration);*/
-
-   /* @Query(value = "SELECT * FROM movie WHERE duration > :duration", nativeQuery = true)
-    List<Movie> getMovieAfterDuration(@Param("duration") Long duration);
-    */
-
     //JPQL
     @Query(value = "SELECT new it.developer.film.payload.response.MovieResponse(" +
             "m.title, " +
@@ -40,5 +34,10 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     )
     List<MovieResponse> getAllMovie();
 
-
+    @Query(value = "SELECT m.title " +
+            "FROM Movie AS m " +
+            "INNER JOIN m.languages AS l " +
+            "WHERE l.languageName = :language " +
+            "ORDER BY m.title")
+    List<String>findByLanguage(@Param("language") String language);
 }

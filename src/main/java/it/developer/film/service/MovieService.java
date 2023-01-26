@@ -36,14 +36,6 @@ public class MovieService {
         return movieRepository.findByProductionYearAfter(date);
     }
 
-    /*public List<Movie> findByDurationAfter(Long duration){
-        return movieRepository.findByDurationAfter(duration);
-    }*/
-
-    /*public List<Movie> getMovieAfterDuration(Long duration){
-        return movieRepository.getMovieAfterDuration(duration);
-    }*/
-
     public List<MovieResponse> getTitle(Long duration) {
         return movieRepository.getTitle(duration);
     }
@@ -51,6 +43,11 @@ public class MovieService {
     public List<MovieResponse> getAllMovie() {
         List<MovieResponse> movieList = movieRepository.getAllMovie();
         return movieList;
+    }
+
+    public List<String>findByLanguage(String language){
+        List<String> movieListLan = movieRepository.findByLanguage(language);
+        return movieListLan;
     }
 
 
