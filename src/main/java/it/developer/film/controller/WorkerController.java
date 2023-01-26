@@ -5,16 +5,15 @@ import it.developer.film.entity.LocalityId;
 import it.developer.film.entity.Nationality;
 import it.developer.film.entity.Worker;
 import it.developer.film.payload.request.WorkerRequest;
+import it.developer.film.payload.response.WorkerResponse;
 import it.developer.film.service.NationalityService;
 import it.developer.film.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -45,9 +44,18 @@ public class WorkerController {
                 worker.getImage(),
                 new Locality(new LocalityId(new Nationality(worker.getNationalityName()), worker.getCityName()))
         );
-
         workerService.insertWorker(wor);
 
         return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
     }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?>findAllWorker() {
+
+        List<WorkerResponse> w = workerService.findAllWorker();
+        return new ResponseEntity<>(w, HttpStatus.OK);
+
+    }
+
+
 }
