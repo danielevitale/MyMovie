@@ -27,7 +27,6 @@ public class Worker {
     @ManyToOne
     @JoinColumn(name = "city_name", nullable = false)
     @JoinColumn(name = "nationality_name", nullable = false)
-
     private Locality locality;
 
     public Worker(String firstName, String lastName, LocalDate birthday, String image, Locality locality) {

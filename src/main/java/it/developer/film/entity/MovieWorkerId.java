@@ -1,9 +1,13 @@
 package it.developer.film.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class MovieWorkerId implements Serializable {
 

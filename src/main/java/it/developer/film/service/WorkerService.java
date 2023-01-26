@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkerService {
@@ -32,5 +33,7 @@ public class WorkerService {
      public List<WorkerResponse>findAllWorker(){
           return workerRepository.findAllWorker();
      }
-
+     public Optional<Worker> findById(Long Id){
+          return workerRepository.findById(Id);
+     }
 }
