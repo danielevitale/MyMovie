@@ -17,7 +17,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     boolean existsByProductionYear(LocalDate productionYear);
 
 
-    List<Movie> findByProductionYearAfter(LocalDate date);
+    //List<Movie> findByProductionYearAfter(LocalDate date);
 
     //JPQL
     @Query(value = "SELECT new it.developer.film.payload.response.MovieResponse(" +

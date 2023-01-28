@@ -3,13 +3,16 @@ package it.developer.film.controller;
 import it.developer.film.entity.Language;
 import it.developer.film.entity.Movie;
 import it.developer.film.payload.response.MovieResponse;
+import it.developer.film.service.FileService;
 import it.developer.film.service.LanguageService;
 import it.developer.film.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -21,11 +24,25 @@ import java.util.Set;
 @RequestMapping("movie")
 public class MovieController {
 
+    @Value("${movie.size}")
+    private long size;
+
+    @Value("${movie.width}")
+    private int width;
+
+    @Value("${movie.height}")
+    private int height;
+
+    @Value("${movie.extensions}")
+    private String[] extensions;
+
     @Autowired
     MovieService movieService;
 
     @Autowired
     LanguageService languageService;
+
+    @Autowired FileService fileService;
 
     @PutMapping("insert")
     public ResponseEntity<?> insertMovie(@RequestBody Movie movie) {
@@ -90,6 +107,33 @@ public class MovieController {
         }
 
         return new ResponseEntity<>(m,HttpStatus.OK);
+
+    }
+
+    @PatchMapping("/add-poster/{movieId}")
+    @Transactional
+    public ResponseEntity addImage(@PathVariable long movieId, @RequestParam MultipartFile file){
+
+        if(!fileService.checkSize(file, size))
+            return new ResponseEntity("File empty or size grater than "+size, HttpStatus.BAD_REQUEST);
+
+        if(!fileService.checkDimensions(fileService.fromMutipartFileToBufferedImage(file), width, height))
+            return new ResponseEntity("Wrong width or height image", HttpStatus.BAD_REQUEST);
+
+        if(!fileService.checkExtension(file, extensions))
+            return new ResponseEntity("File type not allowed", HttpStatus.BAD_REQUEST);
+
+        Optional<Movie> m = movieService.findById(movieId);
+        if(m.isEmpty())
+            return new ResponseEntity("Movie not found", HttpStatus.NOT_FOUND);
+
+        String imageToUpload = fileService.uploadPostImage(file, movieId, m.get().getPoster());
+        if(imageToUpload == null)
+            return new ResponseEntity("Something went wrong uploading image", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        m.get().setPoster(imageToUpload);
+
+        return new ResponseEntity("Image "+imageToUpload+" succesfully uploaded", HttpStatus.OK);
 
     }
 

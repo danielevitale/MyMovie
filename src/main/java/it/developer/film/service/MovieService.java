@@ -32,9 +32,9 @@ public class MovieService {
         return movieRepository.existsByProductionYear(productionYear);
     }
 
-    public List<Movie> findByProductionYearAfter(LocalDate date) {
+  /*  public List<Movie> findByProductionYearAfter(LocalDate date) {
         return movieRepository.findByProductionYearAfter(date);
-    }
+    }*/
 
     public List<MovieResponse> getTitle(Long duration) {
         return movieRepository.getTitle(duration);
