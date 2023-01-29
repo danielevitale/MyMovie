@@ -42,6 +42,7 @@ public class MovieController {
 
     @Autowired FileService fileService;
 
+    // metodo per inserire un nuovo film
     @PutMapping("insert")
     public ResponseEntity<?> insertMovie(@RequestBody Movie movie) {
         if (movieService.existsByTitle(movie.getTitle()) && movieService.existsByProductionYear(movie.getProductionYear()))
@@ -61,6 +62,7 @@ public class MovieController {
         return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
     }
 
+    // metodo per farsi stampare una lista di film superiori a una durata X
     @GetMapping("duration/{duration}")
     public ResponseEntity<?> getTitle(@PathVariable Long duration){
         List<MovieResponse> movieList = movieService.getTitle(duration);
@@ -70,6 +72,7 @@ public class MovieController {
         return new ResponseEntity<>(movieList, HttpStatus.OK);
     }
 
+    // metodo per inserire le lingue in cui è stato doppiato quel film
     @PatchMapping("languages/{id}")
     @Transactional
     public ResponseEntity<?> addLanguages(@PathVariable Long id, @RequestParam Set<String> languages) {
@@ -89,13 +92,13 @@ public class MovieController {
 
         return new ResponseEntity<String>("Lingue modificate", HttpStatus.OK);
     }
-
+    // metodo per farsi tornare la lista di tutti i film inseriti
     @GetMapping("/findAll")
     public ResponseEntity<?> getAllMovie (){
         List<MovieResponse> movieList = movieService.getAllMovie();
         return new ResponseEntity<>(movieList,HttpStatus.OK);
     }
-
+    // metodo per farsi tornare una lista di film in relazione alla lingua selezionata
     @GetMapping("/findByLanguage/{language}")
     public ResponseEntity<?> addLanguages(@PathVariable String language){
 
@@ -108,6 +111,7 @@ public class MovieController {
 
     }
 
+    // metodo per aggiungere l'immagine poster al film selezionato
     @PatchMapping("/add-poster/{movieId}")
     public ResponseEntity <?> addImage(@PathVariable long movieId, @RequestParam MultipartFile file){
 

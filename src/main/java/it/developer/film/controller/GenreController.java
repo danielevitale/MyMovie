@@ -43,7 +43,7 @@ public class GenreController {
         }
         return new ResponseEntity<>(gen, HttpStatus.OK);
     }
-
+    //metodo per controllare che un gere sia già presente
     @GetMapping("/findOne/{genreName}")
     public ResponseEntity<?> findOne(@PathVariable String genreName) {
         if (genreService.existsByGenre(genreName)) {

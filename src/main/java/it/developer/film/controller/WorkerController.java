@@ -25,7 +25,7 @@ public class WorkerController {
     @Autowired
     NationalityService nationalityService;
 
-
+    // metodo per inserire un nuvo professionista
     @PutMapping("/insert")
     public ResponseEntity<?>insertWorker(@RequestBody WorkerRequest worker){
 
@@ -48,7 +48,7 @@ public class WorkerController {
 
         return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
     }
-
+    // metodo per stampare la lista di professionisti gia inseriti
     @GetMapping("/findAll")
     public ResponseEntity<?>findAllWorker() {
 

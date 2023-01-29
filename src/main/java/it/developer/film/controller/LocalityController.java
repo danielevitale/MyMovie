@@ -24,6 +24,7 @@ public class LocalityController {
     @Autowired
     NationalityService nationalityService;
 
+    // metodo per inserimento di nuove locality
     @PutMapping("/insert/{nationality}")
     public ResponseEntity<?> insertLocality(@PathVariable String nationality, @RequestBody LocalityRequest locality) {
         Optional<Nationality> nat = nationalityService.findById(nationality);
@@ -42,13 +43,13 @@ public class LocalityController {
 
         return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
     }
-
+    // metodo per farsi restituire tutte le locality
     @GetMapping("/findAll")
     public ResponseEntity<?> findAllLocality() {
         List<LocalityResponse> getAllLocality = localityService.findAllLocality();
         return new ResponseEntity<>(getAllLocality, HttpStatus.OK);
     }
-
+    // metodo per vedere se una locality è gia presente
     @GetMapping("/findOne/{nationalityName}/{cityName}")
     public ResponseEntity<?> findOneLocality(@PathVariable Nationality nationalityName, @PathVariable String cityName) {
         if (localityService.existsByNationalityNameAndCityName(nationalityName, cityName)) {

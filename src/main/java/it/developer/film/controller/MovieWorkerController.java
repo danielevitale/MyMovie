@@ -25,7 +25,7 @@ public class MovieWorkerController {
     @Autowired
     WorkerService workerService;
 
-
+    // metodo per associare a un film un eventuale (attore, attrice, regista) indicandone la mansione svolta
     @PutMapping("/{movId}/{worId}/{role}")
     public ResponseEntity<?> assoc(@PathVariable long movId, @PathVariable long worId, @PathVariable String role) {
 
