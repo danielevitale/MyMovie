@@ -23,10 +23,9 @@ public class Movie {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = true)
+    @Column(nullable = true,  columnDefinition = "TEXT")
     private String plot;
 
-    @Column(columnDefinition = "Year")
     private LocalDate productionYear;
 
     @Column(nullable = false)

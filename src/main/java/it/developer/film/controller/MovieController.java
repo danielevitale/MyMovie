@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -111,29 +109,29 @@ public class MovieController {
     }
 
     @PatchMapping("/add-poster/{movieId}")
-    @Transactional
-    public ResponseEntity addImage(@PathVariable long movieId, @RequestParam MultipartFile file){
+    public ResponseEntity <?> addImage(@PathVariable long movieId, @RequestParam MultipartFile file){
 
         if(!fileService.checkSize(file, size))
-            return new ResponseEntity("File empty or size grater than "+size, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("File empty or size grater than "+size, HttpStatus.BAD_REQUEST);
 
         if(!fileService.checkDimensions(fileService.fromMutipartFileToBufferedImage(file), width, height))
-            return new ResponseEntity("Wrong width or height image", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("Wrong width or height image", HttpStatus.BAD_REQUEST);
 
         if(!fileService.checkExtension(file, extensions))
-            return new ResponseEntity("File type not allowed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("File type not allowed", HttpStatus.BAD_REQUEST);
 
         Optional<Movie> m = movieService.findById(movieId);
         if(m.isEmpty())
-            return new ResponseEntity("Movie not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Movie not found", HttpStatus.NOT_FOUND);
 
         String imageToUpload = fileService.uploadPostImage(file, movieId, m.get().getPoster());
         if(imageToUpload == null)
-            return new ResponseEntity("Something went wrong uploading image", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>("Something went wrong uploading image", HttpStatus.INTERNAL_SERVER_ERROR);
 
         m.get().setPoster(imageToUpload);
+        movieService.insertMovie(m.get());
 
-        return new ResponseEntity("Image "+imageToUpload+" succesfully uploaded", HttpStatus.OK);
+        return new ResponseEntity<String>("Image "+imageToUpload+" succesfully uploaded", HttpStatus.OK);
 
     }
 
