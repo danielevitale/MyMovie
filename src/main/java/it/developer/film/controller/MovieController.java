@@ -2,6 +2,7 @@ package it.developer.film.controller;
 
 import it.developer.film.entity.Language;
 import it.developer.film.entity.Movie;
+import it.developer.film.payload.response.MovieDetailsResponse;
 import it.developer.film.payload.response.MovieResponse;
 import it.developer.film.service.FileService;
 import it.developer.film.service.LanguageService;
@@ -136,6 +137,19 @@ public class MovieController {
         movieService.insertMovie(m.get());
 
         return new ResponseEntity<String>("Image "+imageToUpload+" succesfully uploaded", HttpStatus.OK);
+
+    }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> getMovieDetails(@PathVariable long id){
+
+        MovieDetailsResponse mdr = movieService.getMovieDetails(id);
+
+        if(mdr == null){
+            return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(mdr,HttpStatus.OK);
 
     }
 

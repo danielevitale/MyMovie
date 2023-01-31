@@ -1,6 +1,7 @@
 package it.developer.film.repository;
 
 import it.developer.film.entity.Movie;
+import it.developer.film.payload.response.MovieDetailsResponse;
 import it.developer.film.payload.response.MovieResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -40,4 +41,20 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             "WHERE l.languageName = :language " +
             "ORDER BY m.title")
     List<String>findByLanguage(@Param("language") String language);
+
+
+
+    //********************PIANTO********************************
+
+    @Query(value = "SELECT new it.developer.film.payload.response.MovieDetailsResponse (" +
+            "m.id, " +
+            "m.title, " +
+            "m.plot, " +
+            "m.productionYear, " +
+            "m.duration, " +
+            ":imagePath || m.poster, " +
+            "m.nationality.nationalityName " +
+            ") FROM Movie AS m " +
+            "WHERE m.id = :id ")
+    MovieDetailsResponse getMovieDetails(@Param("id") long id, @Param("imagePath") String imagePath);
 }

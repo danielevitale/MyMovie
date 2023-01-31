@@ -1,9 +1,11 @@
 package it.developer.film.service;
 
 import it.developer.film.entity.Movie;
+import it.developer.film.payload.response.MovieDetailsResponse;
 import it.developer.film.payload.response.MovieResponse;
 import it.developer.film.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,6 +14,9 @@ import java.util.Optional;
 
 @Service
 public class MovieService {
+
+    @Value("${movie.path}")
+    private String imagePath;
 
     @Autowired
     MovieRepository movieRepository;
@@ -48,6 +53,11 @@ public class MovieService {
     public List<String>findByLanguage(String language){
         List<String> movieListLan = movieRepository.findByLanguage(language);
         return movieListLan;
+    }
+
+    public MovieDetailsResponse getMovieDetails(long id) {
+        MovieDetailsResponse movie = movieRepository.getMovieDetails(id, imagePath);
+        return movie;
     }
 
 
