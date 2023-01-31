@@ -9,6 +9,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +28,9 @@ public class FileService {
     public BufferedImage fromMutipartFileToBufferedImage(MultipartFile file){
         BufferedImage bf = null;
         try{
-            bf = ImageIO.read(file.getInputStream());
+            InputStream streamImg = file.getInputStream();
+            bf = ImageIO.read(streamImg);
+            streamImg.close();
             return bf;
         }catch(IOException e){
             return null;
@@ -42,8 +45,10 @@ public class FileService {
 
     public boolean checkExtension(MultipartFile file, String[] extensions) {
         ImageInputStream img = null;
+        InputStream streamImg = null;
         try {
-            img = ImageIO.createImageInputStream(file.getInputStream());
+            streamImg = file.getInputStream();
+            img = ImageIO.createImageInputStream(streamImg);
         } catch (IOException e) {
             return false;
         }
@@ -53,6 +58,7 @@ public class FileService {
         while (imageReaders.hasNext()) {
             ImageReader reader = imageReaders.next();
             try {
+                streamImg.close();
                 for(int i = 0; i<extensions.length; i++) {
                     if(reader.getFormatName().equalsIgnoreCase(extensions[i])) {
                         return true;
