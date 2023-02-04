@@ -13,7 +13,6 @@ public class WorkerResponseDetails {
     private long Id;
     private String firstName;
     private String lastName;
-    private String image;
     private Role role;
 
 

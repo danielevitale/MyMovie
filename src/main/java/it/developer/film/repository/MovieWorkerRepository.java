@@ -18,7 +18,6 @@ public interface MovieWorkerRepository extends JpaRepository<MovieWorker, MovieW
     @Query(value="SELECT new it.developer.film.payload.response.WorkerResponseDetails (w.id, " +
             "w.firstName, " +
             "w.lastName, " +
-            "w.image, " +
             "mw.movieWorkerId.role) " +
             "FROM MovieWorker mw " +
             "INNER JOIN Worker w on mw.movieWorkerId.worker.id = w.id " +

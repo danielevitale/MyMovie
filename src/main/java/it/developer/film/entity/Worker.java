@@ -22,18 +22,20 @@ public class Worker {
     @Column(nullable = false, length = 30)
     private String lastName;
     private LocalDate birthday;
-    private String image;
 
     @ManyToOne
     @JoinColumn(name = "city_name", nullable = false)
     @JoinColumn(name = "nationality_name", nullable = false)
     private Locality locality;
 
-    public Worker(String firstName, String lastName, LocalDate birthday, String image, Locality locality) {
+    @OneToOne
+    @JoinColumn(name="img")
+    private WorkerImg workerImg;
+
+    public Worker(String firstName, String lastName, LocalDate birthday, Locality locality) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
-        this.image = image;
         this.locality = locality;
     }
 

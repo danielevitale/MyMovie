@@ -1,18 +1,23 @@
 package it.developer.film.controller;
 
-import it.developer.film.entity.Locality;
-import it.developer.film.entity.LocalityId;
-import it.developer.film.entity.Nationality;
-import it.developer.film.entity.Worker;
+import it.developer.film.entity.*;
 import it.developer.film.payload.request.WorkerRequest;
 import it.developer.film.payload.response.WorkerResponse;
+import it.developer.film.service.FileService;
 import it.developer.film.service.NationalityService;
+import it.developer.film.service.WorkerImgService;
 import it.developer.film.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +29,22 @@ public class WorkerController {
     WorkerService workerService;
     @Autowired
     NationalityService nationalityService;
+    @Autowired
+    WorkerImgService workerImgService;
+    @Autowired
+    FileService fileService;
+
+    @Value("${worker.size}")
+    private long size;
+
+    @Value("${worker.width}")
+    private int width;
+
+    @Value("${worker.height}")
+    private int height;
+
+    @Value("${worker.extensions}")
+    private String[] extensions;
 
     // metodo per inserire un nuvo professionista
     @PutMapping("/insert")
@@ -41,7 +62,6 @@ public class WorkerController {
                 worker.getFirstName(),
                 worker.getLastName(),
                 worker.getBirthday(),
-                worker.getImage(),
                 new Locality(new LocalityId(new Nationality(worker.getNationalityName()), worker.getCityName()))
         );
         workerService.insertWorker(wor);
@@ -54,6 +74,33 @@ public class WorkerController {
 
         List<WorkerResponse> w = workerService.findAllWorker();
         return new ResponseEntity<>(w, HttpStatus.OK);
+
+    }
+
+    @PatchMapping(value="worker-img/{workerId}", consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Transactional
+    public ResponseEntity<?> updateAvatar(@PathVariable long workerId, @RequestParam @NotNull MultipartFile file) throws IOException {
+
+        if(!fileService.checkSize(file, size))
+            return new ResponseEntity("File empty or size grater than "+size, HttpStatus.BAD_REQUEST);
+
+        if(!fileService.checkDimensions(fileService.fromMutipartFileToBufferedImage(file), width, height))
+            return new ResponseEntity("Wrong width or height image", HttpStatus.BAD_REQUEST);
+
+        if(!fileService.checkExtension(file, extensions))
+            return new ResponseEntity("File type not allowed", HttpStatus.BAD_REQUEST);
+
+        Optional<Worker> w = workerService.findById(workerId);
+        WorkerImg workerImg = workerImgService.fromMultipartFileToAvatar(file);
+
+        if(w.get().getWorkerImg() != null)
+            workerImg.setId(w.get().getWorkerImg().getId());
+
+        workerImgService.save(workerImg);
+
+        w.get().setWorkerImg(workerImg);
+
+        return new ResponseEntity("Your photo has been update",  HttpStatus.OK);
 
     }
 
