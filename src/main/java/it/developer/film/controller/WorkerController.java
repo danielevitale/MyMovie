@@ -79,7 +79,7 @@ public class WorkerController {
 
     @PatchMapping(value="worker-img/{workerId}", consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
-    public ResponseEntity<?> updateAvatar(@PathVariable long workerId, @RequestParam @NotNull MultipartFile file) throws IOException {
+    public ResponseEntity<?> updateWorkerImg(@PathVariable long workerId, @RequestParam @NotNull MultipartFile file) throws IOException {
 
         if(!fileService.checkSize(file, size))
             return new ResponseEntity("File empty or size grater than "+size, HttpStatus.BAD_REQUEST);
@@ -102,6 +102,27 @@ public class WorkerController {
 
         return new ResponseEntity("Your photo has been update",  HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deleteImg(@PathVariable long id){
+
+        Optional<Worker> w = workerService.findById(id);
+
+        if (w.isEmpty())
+            return new ResponseEntity<>("Worker not found", HttpStatus.NOT_FOUND);
+
+        WorkerImg img = w.get().getWorkerImg();
+
+        if (img != null) {
+            w.get().setWorkerImg(null);
+            workerImgService.delete(img);
+        }else{
+            return new ResponseEntity<>("Nessuna immagine da eliminare", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Image deleted", HttpStatus.OK);
     }
 
 

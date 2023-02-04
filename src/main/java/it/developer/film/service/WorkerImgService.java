@@ -7,11 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
+
 @Service
 public class WorkerImgService {
 
     @Autowired
     WorkerImgRepository workerImgRepository;
+
+    public Optional<WorkerImg> findById (long id){
+        return  workerImgRepository.findById(id);
+    }
 
     public void save(WorkerImg workerImg){
         workerImgRepository.save(workerImg);
