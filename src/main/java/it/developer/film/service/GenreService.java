@@ -28,4 +28,6 @@ public class GenreService {
         return  genreRepository.getAllGenre();
     }
 
+    public Set<String> getGenresByMovie(long id){ return genreRepository.getGenresByMovie(id); }
+
 }

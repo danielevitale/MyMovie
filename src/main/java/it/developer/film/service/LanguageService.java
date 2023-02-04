@@ -15,4 +15,7 @@ public class LanguageService {
     public Set<Language> findByLanguageNameIn(Set<String> id){
         return languageRepository.findByLanguageNameIn(id);
     }
+    public Set<String> getLanguagesByMovie(Long id){
+        return languageRepository.getLanguagesByMovie(id);
+    }
 }

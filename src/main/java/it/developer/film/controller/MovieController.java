@@ -4,9 +4,8 @@ import it.developer.film.entity.Language;
 import it.developer.film.entity.Movie;
 import it.developer.film.payload.response.MovieDetailsResponse;
 import it.developer.film.payload.response.MovieResponse;
-import it.developer.film.service.FileService;
-import it.developer.film.service.LanguageService;
-import it.developer.film.service.MovieService;
+import it.developer.film.payload.response.WorkerResponseDetails;
+import it.developer.film.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -40,6 +39,12 @@ public class MovieController {
 
     @Autowired
     LanguageService languageService;
+
+    @Autowired
+    GenreService genreService;
+
+    @Autowired
+    MovieWorkerService movieWorkerService;
 
     @Autowired FileService fileService;
 
@@ -146,8 +151,21 @@ public class MovieController {
         MovieDetailsResponse mdr = movieService.getMovieDetails(id);
 
         if(mdr == null){
-            return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Movie not found", HttpStatus.NOT_FOUND);
         }
+
+        Set<String> languages = languageService.getLanguagesByMovie(id);
+
+        mdr.setLanguages(languages);
+
+        Set<String> genres = genreService.getGenresByMovie(id);
+
+        mdr.setGenres(genres);
+
+        List<WorkerResponseDetails> workers = movieWorkerService.getWorkerByMovie(id);
+
+        mdr.setWorkers(workers);
+
 
         return new ResponseEntity<>(mdr,HttpStatus.OK);
 

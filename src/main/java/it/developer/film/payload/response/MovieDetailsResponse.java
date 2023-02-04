@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,11 +30,11 @@ public class MovieDetailsResponse {
 
     private String nationalityName;
 
-    private Set<Language> languages;
+    private Set<String> languages = new HashSet<>();
 
-    private Set<Genre> genres;
+    private Set<String> genres = new HashSet<>();
 
-    private List<WorkerResponseDetails> workers;
+    private List<WorkerResponseDetails> workers = new ArrayList<>();
 
     public MovieDetailsResponse(Long id, String title, String plot, LocalDate productionYear, long duration, String poster, String nationalityName) {
         Id = id;
