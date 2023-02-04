@@ -4,6 +4,7 @@ import it.developer.film.entity.Locality;
 import it.developer.film.entity.MovieWorker;
 import it.developer.film.entity.Role;
 import it.developer.film.entity.Worker;
+import it.developer.film.payload.response.MovieWorkerResponse;
 import it.developer.film.payload.response.WorkerMovieResponse;
 import it.developer.film.repository.MovieWorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,11 @@ public class MovieWorkerService {
     }
 
     public List<WorkerMovieResponse> getWorkerByMovie(long id){
-       return movieWorkerRepository.getWorkerByMovie(id);
+        return movieWorkerRepository.getWorkerByMovie(id);
+    }
+
+    public List<MovieWorkerResponse> getMovieByWorker(long id){
+        return movieWorkerRepository.getMovieByWorker(id);
     }
 
 

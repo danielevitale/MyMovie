@@ -2,11 +2,10 @@ package it.developer.film.controller;
 
 import it.developer.film.entity.*;
 import it.developer.film.payload.request.WorkerRequest;
+import it.developer.film.payload.response.MovieWorkerResponse;
+import it.developer.film.payload.response.WorkerDetailsResponse;
 import it.developer.film.payload.response.WorkerResponse;
-import it.developer.film.service.FileService;
-import it.developer.film.service.NationalityService;
-import it.developer.film.service.WorkerImgService;
-import it.developer.film.service.WorkerService;
+import it.developer.film.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -33,6 +32,8 @@ public class WorkerController {
     WorkerImgService workerImgService;
     @Autowired
     FileService fileService;
+    @Autowired
+    MovieWorkerService movieWorkerService;
 
     @Value("${worker.size}")
     private long size;
@@ -49,9 +50,16 @@ public class WorkerController {
     @GetMapping("/{id}")
     public ResponseEntity<?> workerDetails(@PathVariable long id){
 
+        WorkerDetailsResponse w = workerService.getWorkerDetails(id);
 
+        if (w == null)
+            return new ResponseEntity<>("Worker not found", HttpStatus.NOT_FOUND);
 
-        return null;
+        List<MovieWorkerResponse> mw = movieWorkerService.getMovieByWorker(id);
+
+        w.setMovieList(mw);
+
+        return new ResponseEntity<>(w, HttpStatus.OK);
     }
 
     // metodo per inserire un nuovo professionista

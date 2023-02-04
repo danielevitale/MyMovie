@@ -1,7 +1,7 @@
 package it.developer.film.service;
 
-import it.developer.film.entity.Nationality;
 import it.developer.film.entity.Worker;
+import it.developer.film.payload.response.WorkerDetailsResponse;
 import it.developer.film.payload.response.WorkerResponse;
 import it.developer.film.repository.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +35,9 @@ public class WorkerService {
      }
      public Optional<Worker> findById(Long Id){
           return workerRepository.findById(Id);
+     }
+
+     public WorkerDetailsResponse getWorkerDetails(long id){
+          return workerRepository.getWorkerDetails(id);
      }
 }

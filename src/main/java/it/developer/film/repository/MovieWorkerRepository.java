@@ -3,6 +3,7 @@ package it.developer.film.repository;
 import it.developer.film.entity.MovieWorker;
 import it.developer.film.entity.MovieWorkerId;
 import it.developer.film.entity.Worker;
+import it.developer.film.payload.response.MovieWorkerResponse;
 import it.developer.film.payload.response.WorkerMovieResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +24,13 @@ public interface MovieWorkerRepository extends JpaRepository<MovieWorker, MovieW
             "INNER JOIN Worker w on mw.movieWorkerId.worker.id = w.id " +
             "WHERE mw.movieWorkerId.movie.id = :movieId")
     List<WorkerMovieResponse> getWorkerByMovie(@Param("movieId") long id);
+
+    @Query(value="SELECT new it.developer.film.payload.response.MovieWorkerResponse (" +
+            "mw.movieWorkerId.movie.title AS title, " +
+            "mw.movieWorkerId.role ) " +
+            "FROM MovieWorker mw " +
+            "WHERE mw.movieWorkerId.worker.id = :workerId " +
+            "ORDER BY title")
+    List<MovieWorkerResponse> getMovieByWorker(@Param("workerId") long id);
 
 }
