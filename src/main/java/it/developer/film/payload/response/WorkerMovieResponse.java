@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkerResponseDetails {
+public class WorkerMovieResponse {
 
     private long Id;
     private String firstName;

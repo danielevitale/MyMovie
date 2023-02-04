@@ -46,9 +46,17 @@ public class WorkerController {
     @Value("${worker.extensions}")
     private String[] extensions;
 
-    // metodo per inserire un nuvo professionista
+    @GetMapping("/{id}")
+    public ResponseEntity<?> workerDetails(@PathVariable long id){
+
+
+
+        return null;
+    }
+
+    // metodo per inserire un nuovo professionista
     @PutMapping("/insert")
-    public ResponseEntity<?>insertWorker(@RequestBody WorkerRequest worker){
+    public ResponseEntity<?> insertWorker(@RequestBody WorkerRequest worker){
 
        //Optional<Nationality> nat = nationalityService.existsByNationalityName(worker.getNationalityName());
 
