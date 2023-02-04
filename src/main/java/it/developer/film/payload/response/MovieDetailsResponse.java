@@ -34,7 +34,7 @@ public class MovieDetailsResponse {
 
     private Set<String> genres = new HashSet<>();
 
-    private List<WorkerResponseDetails> workers = new ArrayList<>();
+    private List<WorkerMovieResponse> workers = new ArrayList<>();
 
     public MovieDetailsResponse(Long id, String title, String plot, LocalDate productionYear, long duration, String poster, String nationalityName) {
         Id = id;

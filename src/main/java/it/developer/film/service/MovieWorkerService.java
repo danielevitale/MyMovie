@@ -4,7 +4,7 @@ import it.developer.film.entity.Locality;
 import it.developer.film.entity.MovieWorker;
 import it.developer.film.entity.Role;
 import it.developer.film.entity.Worker;
-import it.developer.film.payload.response.WorkerResponseDetails;
+import it.developer.film.payload.response.WorkerMovieResponse;
 import it.developer.film.repository.MovieWorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class MovieWorkerService {
         return trovato;
     }
 
-    public List<WorkerResponseDetails> getWorkerByMovie(long id){
+    public List<WorkerMovieResponse> getWorkerByMovie(long id){
        return movieWorkerRepository.getWorkerByMovie(id);
     }
 

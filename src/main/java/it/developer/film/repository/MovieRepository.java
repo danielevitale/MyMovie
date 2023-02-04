@@ -43,9 +43,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<String>findByLanguage(@Param("language") String language);
 
 
-
-    //********************PIANTO********************************
-
     @Query(value = "SELECT new it.developer.film.payload.response.MovieDetailsResponse (" +
             "m.id, " +
             "m.title, " +

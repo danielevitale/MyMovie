@@ -4,7 +4,7 @@ import it.developer.film.entity.Language;
 import it.developer.film.entity.Movie;
 import it.developer.film.payload.response.MovieDetailsResponse;
 import it.developer.film.payload.response.MovieResponse;
-import it.developer.film.payload.response.WorkerResponseDetails;
+import it.developer.film.payload.response.WorkerMovieResponse;
 import it.developer.film.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -162,7 +162,7 @@ public class MovieController {
 
         mdr.setGenres(genres);
 
-        List<WorkerResponseDetails> workers = movieWorkerService.getWorkerByMovie(id);
+        List<WorkerMovieResponse> workers = movieWorkerService.getWorkerByMovie(id);
 
         mdr.setWorkers(workers);
 
