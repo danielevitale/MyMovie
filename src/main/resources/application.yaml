@@ -82,3 +82,19 @@ app:
   cors.allowedOrigins: \*
   # Mail sender
   mail.sender: ${CORSO_MAIL_GMAIL}
+
+
+movie:
+  width: 2000
+  height: 2000
+  # in bytes
+  size: 1024000
+  extensions: jpg,jpeg,gif,png
+  path: /ProgettiSpringBoot/MyMovie_img/immagini_film_MyMovie/
+
+worker:
+  width: 2000
+  height: 2000
+  # in bytes
+  size: 1024000
+  extensions: jpg,jpeg,gif,png
