@@ -12,13 +12,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
 public interface LocalityRepository extends JpaRepository<Locality, LocalityId> {
 
     @Query(value = "SELECT * FROM locality WHERE nationality_name = :nationality AND city_name = :city ", nativeQuery = true)
-    Locality findByLocality(@Param("nationality") String nationality, @Param("city") String city);
+    Optional<Locality> findByLocality(@Param("nationality") String nationality, @Param("city") String city);
 
     @Query(value = "SELECT new it.developer.film.payload.response.LocalityResponse(" +
                     "l.localityId.nationalityName.nationalityName AS nn, " +

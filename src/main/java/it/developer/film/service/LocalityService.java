@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -23,7 +24,7 @@ public class LocalityService {
         localityRepository.save(locality);
     }
 
-    public Locality findByLocality(String nationality, String city){
+    public Optional<Locality> findByLocality(String nationality, String city){
         return localityRepository.findByLocality(nationality, city);
     }
 
