@@ -11,7 +11,6 @@ public class WorkerRequest {
     private String firstName;
     private String lastName;
     private LocalDate birthday;
-    private String image;
     private String nationalityName;
     private String cityName;
 }
