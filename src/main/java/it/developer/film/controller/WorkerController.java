@@ -27,7 +27,7 @@ public class WorkerController {
     @Autowired
     WorkerService workerService;
     @Autowired
-    NationalityService nationalityService;
+    LocalityService localityService;
     @Autowired
     WorkerImgService workerImgService;
     @Autowired
@@ -66,11 +66,9 @@ public class WorkerController {
     @PutMapping("/insert")
     public ResponseEntity<?> insertWorker(@RequestBody WorkerRequest worker){
 
-       //Optional<Nationality> nat = nationalityService.existsByNationalityName(worker.getNationalityName());
+        //Optional<Nationality> nat = nationalityService.existsByNationalityName(worker.getNationalityName());
 
-        if(workerService.existsByFirstName(worker.getFirstName()) &&
-            workerService.existsByLastName(worker.getLastName()) &&
-            workerService.existsByBirthday(worker.getBirthday())){
+        if(workerService.getWorkerForCheck(worker.getFirstName(),worker.getLastName(),worker.getBirthday()) > 0){
             return new ResponseEntity<String>("Worker already exists", HttpStatus.BAD_REQUEST);
         }
 
@@ -84,6 +82,7 @@ public class WorkerController {
 
         return new ResponseEntity<String>("The operation run!", HttpStatus.CREATED);
     }
+
     // metodo per stampare la lista di professionisti gia inseriti
     @GetMapping("/findAll")
     public ResponseEntity<?>findAllWorker() {
@@ -141,5 +140,27 @@ public class WorkerController {
         return new ResponseEntity<>("Image deleted", HttpStatus.OK);
     }
 
+    @PatchMapping("/update/{id}")
+    @Transactional
+    public ResponseEntity<?>updateWorker(@PathVariable long id, @RequestBody WorkerRequest workerRequest){
+        Optional<Worker> w = workerService.findById(id);
+        if(w.isEmpty()){
+            return new ResponseEntity<String>("Worker not found", HttpStatus.NOT_FOUND);
+        }
+        if(workerService.getWorkerForCheckForUpdate(id, workerRequest.getFirstName(), workerRequest.getLastName(), workerRequest.getBirthday())>0){
+            return new ResponseEntity<String>("This Worker already present in another record", HttpStatus.BAD_REQUEST);
+        }
+        Optional<Locality> l = localityService.findByLocality(workerRequest.getNationalityName(), workerRequest.getCityName());
+        if(l.isEmpty()){
+            return new ResponseEntity<String>("Locality not found", HttpStatus.NOT_FOUND);
+        }
+
+        w.get().setFirstName(workerRequest.getFirstName());
+        w.get().setLastName(workerRequest.getLastName());
+        w.get().setBirthday(workerRequest.getBirthday());
+        w.get().setLocality(new Locality(new LocalityId( new Nationality(workerRequest.getNationalityName()), workerRequest.getCityName())));
+
+        return new ResponseEntity<String>("The operation run", HttpStatus.OK);
+    }
 
 }

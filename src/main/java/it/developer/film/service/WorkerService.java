@@ -40,4 +40,11 @@ public class WorkerService {
      public WorkerDetailsResponse getWorkerDetails(long id){
           return workerRepository.getWorkerDetails(id);
      }
+     public int getWorkerForCheck(String firstName, String lastName, LocalDate birthday){
+          return workerRepository.getWorkerForCheck(firstName, lastName, birthday);
+     }
+
+     public int getWorkerForCheckForUpdate(Long id, String firstName, String lastName, LocalDate birthday){
+          return workerRepository.getWorkerForCheckForUpdate(id, firstName, lastName, birthday);
+     }
 }

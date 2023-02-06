@@ -39,4 +39,25 @@ public interface WorkerRepository extends JpaRepository<Worker, Long> {
             "WHERE w.id = :workerId")
     WorkerDetailsResponse getWorkerDetails(@Param("workerId") long workerId);
 
+    @Query(value="SELECT COUNT(w.id) " +
+            "FROM worker AS w " +
+            "WHERE w.first_name = :firstName " +
+            "AND w.last_name = :lastName " +
+            "AND w.birthday = :birthday", nativeQuery = true)
+    int getWorkerForCheck(@Param("firstName") String firstName,
+                          @Param("lastName") String lastName,
+                          @Param("birthday") LocalDate birthday);
+
+    @Query(value="SELECT COUNT(w.id) " +
+            "FROM worker AS w " +
+            "WHERE w.id != :id " +
+            "AND w.first_name = :firstName " +
+            "AND w.last_name = :lastName " +
+            "AND w.birthday = :birthday", nativeQuery = true)
+    int getWorkerForCheckForUpdate(
+            @Param("id") Long id,
+            @Param("firstName") String firstName,
+            @Param("lastName") String lastName,
+            @Param("birthday") LocalDate birthday);
+
 }
