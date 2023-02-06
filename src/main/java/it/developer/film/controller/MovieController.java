@@ -2,6 +2,8 @@ package it.developer.film.controller;
 
 import it.developer.film.entity.Language;
 import it.developer.film.entity.Movie;
+import it.developer.film.entity.Nationality;
+import it.developer.film.payload.request.MovieRequest;
 import it.developer.film.payload.response.MovieDetailsResponse;
 import it.developer.film.payload.response.MovieResponse;
 import it.developer.film.payload.response.WorkerMovieResponse;
@@ -47,11 +49,13 @@ public class MovieController {
     MovieWorkerService movieWorkerService;
 
     @Autowired FileService fileService;
+    @Autowired NationalityService nationalityService;
 
     // metodo per inserire un nuovo film
     @PutMapping("insert")
     public ResponseEntity<?> insertMovie(@RequestBody Movie movie) {
-        if (movieService.existsByTitle(movie.getTitle()) && movieService.existsByProductionYear(movie.getProductionYear()))
+
+        if (movieService.getMovieForCheck(movie.getTitle(), movie.getProductionYear()) > 0)
             return new ResponseEntity<String>("This movie is already exists!!!", HttpStatus.NOT_ACCEPTABLE);
 
         Movie mov = new Movie(
@@ -78,10 +82,10 @@ public class MovieController {
         return new ResponseEntity<>(movieList, HttpStatus.OK);
     }
 
-    // metodo per inserire le lingue in cui è stato doppiato quel film
+    // metodo per modificare le lingue in cui è stato doppiato quel film
     @PatchMapping("languages/{id}")
     @Transactional
-    public ResponseEntity<?> addLanguages(@PathVariable Long id, @RequestParam Set<String> languages) {
+    public ResponseEntity<?> updateLanguages(@PathVariable Long id, @RequestParam Set<String> stringLanguages) {
 
         Optional<Movie> m = movieService.findById(id);
 
@@ -89,15 +93,16 @@ public class MovieController {
             return new ResponseEntity<>("Film not found", HttpStatus.NOT_FOUND);
         }
 
-        Set<Language> languages1 = languageService.findByLanguageNameIn(languages);
+        Set<Language> languages = languageService.findByLanguageNameIn(stringLanguages);
 
-        if(languages1.isEmpty()){
+        if(languages.isEmpty()){
             return new ResponseEntity<>("Language set empty", HttpStatus.BAD_REQUEST);
         }
-        m.get().setLanguages(languages1);
+        m.get().setLanguages(languages);
 
         return new ResponseEntity<String>("Lingue modificate", HttpStatus.OK);
     }
+
     // metodo per farsi tornare la lista di tutti i film inseriti
     @GetMapping("/findAll")
     public ResponseEntity<?> getAllMovie (){
@@ -106,7 +111,7 @@ public class MovieController {
     }
     // metodo per farsi tornare una lista di film in relazione alla lingua selezionata
     @GetMapping("/findByLanguage/{language}")
-    public ResponseEntity<?> addLanguages(@PathVariable String language){
+    public ResponseEntity<?> getLanguages(@PathVariable String language){
 
         List<String> m = movieService.findByLanguage(language);
         if(m.isEmpty()){
@@ -172,5 +177,31 @@ public class MovieController {
     }
 
 
+    @PatchMapping("/update/{id}")
+    @Transactional
+    public ResponseEntity<?> updateMovie(@PathVariable long id, @RequestBody MovieRequest movieRequest) {
+
+        Optional<Movie> m = movieService.findById(id);
+        if (m.isEmpty()) {
+            return new ResponseEntity<String>("Movie not found", HttpStatus.NOT_FOUND);
+        }
+        if(movieService.getMovieForCheckForUpdate(movieRequest.getTitle(),movieRequest.getProductionYear(), id) > 0){
+            return new ResponseEntity<String>("Movie already exists", HttpStatus.BAD_REQUEST);
+        }
+        Optional<Nationality> na = nationalityService.findById(movieRequest.getNationalityName());
+        if (na.isEmpty()) {
+            return new ResponseEntity<String>("Nationality not found", HttpStatus.NOT_FOUND);
+        }
+
+        m.get().setTitle(movieRequest.getTitle());
+        m.get().setPlot(movieRequest.getPlot());
+        m.get().setProductionYear(movieRequest.getProductionYear());
+        m.get().setDuration(movieRequest.getDuration());
+        //m.get().getNationality().setNationalityName(movieRequest.getNationalityName());
+        //m.get().setNationality(new Nationality(movieRequest.getNationalityName()));
+        m.get().setNationality(na.get());
+
+        return new ResponseEntity<String>("The operation run",HttpStatus.OK);
+    }
 
 }

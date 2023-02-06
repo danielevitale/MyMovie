@@ -60,6 +60,13 @@ public class MovieService {
         return movie;
     }
 
+    public int getMovieForCheck(String title, LocalDate productionYear){
+        return movieRepository.getMovieForCheck(title, productionYear);
+    }
+
+    public int getMovieForCheckForUpdate (String title, LocalDate productionYear, long id){
+        return movieRepository.getMovieForCheckForUpdate(title, productionYear, id);
+    }
 
 
 }

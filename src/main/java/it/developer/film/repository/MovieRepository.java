@@ -54,4 +54,20 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             ") FROM Movie AS m " +
             "WHERE m.id = :id ")
     MovieDetailsResponse getMovieDetails(@Param("id") long id, @Param("imagePath") String imagePath);
+
+    @Query(value = "SELECT COUNT(m.id) " +
+            "FROM movie AS m " +
+            "WHERE m.title = :title " +
+            "AND m.production_year = :productionYear", nativeQuery = true)
+    int getMovieForCheck(@Param("title") String title, @Param("productionYear") LocalDate productionYear);
+
+    @Query(value = "SELECT COUNT(m.id) " +
+            "FROM movie AS m " +
+            "WHERE m.title = :title " +
+            "AND m.production_year = :productionYear " +
+            "AND m.id != :id", nativeQuery = true)
+    int getMovieForCheckForUpdate(
+            @Param("title") String title,
+            @Param("productionYear") LocalDate productionYear,
+            @Param("id") long id);
 }
