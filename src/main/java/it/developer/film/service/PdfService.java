@@ -1,25 +1,18 @@
 package it.developer.film.service;
 
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.ColorConstants;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.properties.HorizontalAlignment;
-import com.itextpdf.layout.properties.TabAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import it.developer.film.entity.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.css.RGBColor;
 
 
 import java.io.ByteArrayInputStream;
@@ -61,7 +54,7 @@ public class PdfService {
         paraTitle.add(text.setBold().setFontColor(ColorConstants.RED));
 
 
-        img.setHeight(400).setWidth(PageSize.A4.getWidth()/2);
+        img.setHeight(400).setWidth(PageSize.A4.getWidth()/2).setMarginBottom(20);
         img.setMarginLeft((PageSize.A4.getWidth()/4)-document.getLeftMargin());
 
         Paragraph paraPlot = new Paragraph(plot).setBorder(new SolidBorder(1)).setPadding(10);;
