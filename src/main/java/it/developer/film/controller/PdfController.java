@@ -2,9 +2,7 @@ package it.developer.film.controller;
 
 import it.developer.film.entity.Movie;
 import it.developer.film.payload.response.WorkerMovieResponse;
-import it.developer.film.service.MovieService;
-import it.developer.film.service.MovieWorkerService;
-import it.developer.film.service.PdfService;
+import it.developer.film.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/pdf")
@@ -30,12 +29,18 @@ public class PdfController {
     PdfService pdfService;
     @Autowired
     MovieWorkerService movieWorkerService;
+    @Autowired
+    LanguageService languageService;
+    @Autowired
+    GenreService genreService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> createPdf(@PathVariable long id) {
 
         Optional<Movie> m = movieService.findById(id);
         List<WorkerMovieResponse> w = movieWorkerService.getWorkerByMovie(id);
+        Set<String> g = genreService.getGenresByMovie(id);
+        Set<String> l = languageService.getLanguagesByMovie(id);
 
         if (!m.isPresent())
             return new ResponseEntity<String>("Post not found", HttpStatus.NOT_FOUND);
@@ -44,7 +49,7 @@ public class PdfController {
         ResponseEntity<InputStreamResource> responseEntity = null;
 
         try {
-            pdfFile = pdfService.createPdfFromPost(m.get(), w);
+            pdfFile = pdfService.createPdfFromPost(m.get(), w, g, l);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/pdf"));
             headers.add("Access-Control-Allow-Origin", "*");
