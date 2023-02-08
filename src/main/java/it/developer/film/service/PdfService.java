@@ -130,7 +130,7 @@ public class PdfService {
                 .setFontColor(ColorConstants.BLUE).setFont(fontTableTitle).setTextAlignment(TextAlignment.CENTER);
         Table table3b = new Table(UnitValue.createPercentArray(glunghezza)).useAllAvailableWidth().
                 setBackgroundColor(ColorConstants.LIGHT_GRAY).setMarginBottom(20);
-        table3a.addCell("RUOLO");
+        table3a.addCell("GENERE");
         for (String value: g) {
             table3b.addCell(value.toString());
         }
