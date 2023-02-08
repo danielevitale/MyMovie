@@ -1,6 +1,7 @@
 package it.developer.film.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class LocalityId implements Serializable {
 
     @ManyToOne
