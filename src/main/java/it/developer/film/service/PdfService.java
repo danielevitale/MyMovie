@@ -1,5 +1,6 @@
 package it.developer.film.service;
 
+import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -47,7 +48,15 @@ public class PdfService {
         Image img = new Image(data);
         String nationality = m.getNationality().getNationalityName();
 
-        //String duration = "Durata: ".concat(String.valueOf(m.getDuration()));
+        //creazione font custom
+        PdfFont font = null;
+        final String GRAFITE = "src/main/resources/fonts/Happy Birthday.otf";
+        try {
+            font = PdfFontFactory.createFont(GRAFITE, PdfEncodings.WINANSI, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
         String duration = String.valueOf(m.getDuration());
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -61,7 +70,7 @@ public class PdfService {
 
         // title, image, content, updatedAt (yyyy-MM-dd), author (username)
         Text text = new Text(title);
-        PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLDOBLIQUE);
+        //PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLDOBLIQUE);
         PdfFont fontTableTitle = PdfFontFactory.createFont(StandardFonts.TIMES_BOLDITALIC);
 
         //title
@@ -70,14 +79,15 @@ public class PdfService {
                 setHeight(50).
                 setFixedPosition(200,746,337).
                 setBackgroundColor(ColorConstants.LIGHT_GRAY);
-        paraTitle.add(text.setBold().setFontColor(ColorConstants.BLUE).setFont(font).setFontSize(20));
+        paraTitle.add(text.setBold().setFontColor(ColorConstants.BLUE).setFontSize(20));
 
         //image
         img.setHeight(210).setMarginBottom(20);
         img.setHorizontalAlignment(HorizontalAlignment.LEFT);
 
         //body
-        Paragraph paraPlot = new Paragraph(plot).
+        Text textPlot = new Text(plot);
+        Paragraph paraPlot = new Paragraph(textPlot.setFont(font).setFontSize(14)).
                 setPadding(10).
                 setMarginBottom(10).
                 setHeight(100).
