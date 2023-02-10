@@ -2,12 +2,15 @@ package it.developer.film.service;
 
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import it.developer.film.entity.Movie;
@@ -34,6 +37,9 @@ public class WorkerPdfService {
         LocalDate birthday = w.getBirthday();
         String nationality = w.getLocality().getLocalityId().getNationalityName().getNationalityName();
         String city = w.getLocality().getLocalityId().getCityName();
+
+        ImageData data = ImageDataFactory.create(w.getWorkerImg().getData());
+        Image img = new Image(data);
 
         //creazione font custom
         PdfFont font = null;
@@ -68,6 +74,7 @@ public class WorkerPdfService {
         document.add(paraFirstName);
         document.add(paraLastName);
         document.add(paraNat);
+        document.add(img);
 
         // CHIUSURA DOCUMENTO
         document.close();
