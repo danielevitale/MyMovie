@@ -1,5 +1,6 @@
 package it.developer.film.controller;
 
+import it.developer.film.entity.Genre;
 import it.developer.film.entity.Language;
 import it.developer.film.entity.Movie;
 import it.developer.film.entity.Nationality;
@@ -182,6 +183,7 @@ public class MovieController {
     public ResponseEntity<?> updateMovie(@PathVariable long id, @RequestBody MovieRequest movieRequest) {
 
         Optional<Movie> m = movieService.findById(id);
+
         if (m.isEmpty()) {
             return new ResponseEntity<String>("Movie not found", HttpStatus.NOT_FOUND);
         }
@@ -192,6 +194,11 @@ public class MovieController {
         if (na.isEmpty()) {
             return new ResponseEntity<String>("Nationality not found", HttpStatus.NOT_FOUND);
         }
+        for (Genre genre : movieRequest.getGenres()) {
+            if (!genreService.existsByGenre(genre.getGenreName()))
+                return new ResponseEntity<String>("Genere " + genre.getGenreName() + " not found", HttpStatus.NOT_FOUND);
+        }
+
 
         m.get().setTitle(movieRequest.getTitle());
         m.get().setPlot(movieRequest.getPlot());
@@ -200,6 +207,9 @@ public class MovieController {
         //m.get().getNationality().setNationalityName(movieRequest.getNationalityName());
         //m.get().setNationality(new Nationality(movieRequest.getNationalityName()));
         m.get().setNationality(na.get());
+
+        m.get().setGenres(movieRequest.getGenres());
+
 
         return new ResponseEntity<String>("The operation run",HttpStatus.OK);
     }
