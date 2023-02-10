@@ -20,13 +20,13 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/pdf")
-public class PdfController {
+@RequestMapping("/moviePdf")
+public class MoviePdfController {
 
     @Autowired
     MovieService movieService;
     @Autowired
-    PdfService pdfService;
+    MoviePdfService pdfService;
     @Autowired
     MovieWorkerService movieWorkerService;
     @Autowired
@@ -35,7 +35,7 @@ public class PdfController {
     GenreService genreService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> createPdf(@PathVariable long id) {
+    public ResponseEntity<?> createPdfFromMovie(@PathVariable long id) {
 
         Optional<Movie> m = movieService.findById(id);
         List<WorkerMovieResponse> w = movieWorkerService.getWorkerByMovie(id);
@@ -43,13 +43,13 @@ public class PdfController {
         Set<String> l = languageService.getLanguagesByMovie(id);
 
         if (!m.isPresent())
-            return new ResponseEntity<String>("Post not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Movie not found", HttpStatus.NOT_FOUND);
 
         InputStream pdfFile = null;
         ResponseEntity<InputStreamResource> responseEntity = null;
 
         try {
-            pdfFile = pdfService.createPdfFromPost(m.get(), w, g, l);
+            pdfFile = pdfService.createPdfFromMovie(m.get(), w, g, l);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/pdf"));
             headers.add("Access-Control-Allow-Origin", "*");

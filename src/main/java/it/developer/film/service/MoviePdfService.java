@@ -32,12 +32,12 @@ import java.util.Set;
 
 
 @Service
-public class PdfService {
+public class MoviePdfService {
 
     @Value("${movie.path}")
     private String pathImage;
 
-    public InputStream createPdfFromPost(Movie m, List<WorkerMovieResponse> w, Set<String> g, Set<String> l) throws IOException {
+    public InputStream createPdfFromMovie(Movie m, List<WorkerMovieResponse> w, Set<String> g, Set<String> l) throws IOException {
         int glunghezza =g.size();
         int llunghezza =l.size();
         String title = m.getTitle().toUpperCase();
@@ -87,12 +87,10 @@ public class PdfService {
 
         //body
         Text textPlot = new Text(plot);
-        Paragraph paraPlot = new Paragraph(textPlot.setFont(font).setFontSize(14)).
-                setPadding(10).
-                setMarginBottom(10).
-                setHeight(100).
-                setFixedPosition(200,606,337).
+        Paragraph paraPlot = new Paragraph(textPlot.setFont(font).setFontSize(14)).setPadding(10).
+                setMarginBottom(10).setHeight(100).setFixedPosition(200,606,337).
                 setBackgroundColor(ColorConstants.LIGHT_GRAY);
+
         Paragraph paraDuration = new Paragraph (duration);
         Paragraph paraProduYear = new Paragraph (productionYear);
         Paragraph paraNat = new Paragraph(nationality);

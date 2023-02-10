@@ -60,9 +60,9 @@ public class WorkerPdfService {
 
         //PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLDOBLIQUE);
         PdfFont fontTableTitle = PdfFontFactory.createFont(StandardFonts.TIMES_BOLDITALIC);
-        Paragraph paraFirstName = new Paragraph(firstName).add(text);
-        Paragraph paraLastName = new Paragraph(lastName).add(text1);
-        Paragraph paraNat = new Paragraph(nationality).add(text2);
+        Paragraph paraFirstName = new Paragraph(firstName);
+        Paragraph paraLastName = new Paragraph(lastName);
+        Paragraph paraNat = new Paragraph(nationality);
 
         //DEVELOPE
         document.add(paraFirstName);
