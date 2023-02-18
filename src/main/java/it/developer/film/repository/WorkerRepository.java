@@ -15,10 +15,6 @@ import java.util.List;
 @Repository
 public interface WorkerRepository extends JpaRepository<Worker, Long> {
 
-    boolean existsByFirstName (String firstName);
-    boolean existsByLastName (String lastName);
-    boolean existsByBirthday (LocalDate birthday);
-
     @Query(value="SELECT new it.developer.film.payload.response.WorkerResponse (" +
             "w.id, " +
             "w.firstName, " +

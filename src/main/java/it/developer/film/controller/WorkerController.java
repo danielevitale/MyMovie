@@ -1,7 +1,9 @@
 package it.developer.film.controller;
 
 import it.developer.film.entity.*;
+import it.developer.film.payload.request.MovieRequest;
 import it.developer.film.payload.request.WorkerRequest;
+import it.developer.film.payload.request.WorkerUpDateRequest;
 import it.developer.film.payload.response.MovieWorkerResponse;
 import it.developer.film.payload.response.WorkerDetailsResponse;
 import it.developer.film.payload.response.WorkerResponse;
@@ -162,5 +164,4 @@ public class WorkerController {
 
         return new ResponseEntity<String>("The operation run", HttpStatus.OK);
     }
-
 }

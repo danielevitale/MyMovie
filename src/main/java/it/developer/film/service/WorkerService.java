@@ -16,17 +16,7 @@ public class WorkerService {
      @Autowired
      WorkerRepository workerRepository;
 
-     public boolean existsByFirstName (String firstName){
-          return workerRepository.existsByFirstName(firstName);
-     }
-     public boolean existsByLastName (String lastName){
-          return workerRepository.existsByLastName(lastName);
-     }
-     public boolean existsByBirthday (LocalDate birthday){
-          return workerRepository.existsByBirthday(birthday);
-     }
-
-     public void insertWorker(Worker work) {
+    public void insertWorker(Worker work) {
           workerRepository.save(work);
      }
 
